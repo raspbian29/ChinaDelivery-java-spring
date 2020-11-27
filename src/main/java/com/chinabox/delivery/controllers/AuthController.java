@@ -1,6 +1,5 @@
 package com.chinabox.delivery.controllers;
 
-import com.chinabox.delivery.dao.AuthTokenRepository;
 import com.chinabox.delivery.dao.UserRepository;
 import com.chinabox.delivery.model.AuthToken;
 import com.chinabox.delivery.request.body.LoginRequest;
