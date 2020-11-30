@@ -8,16 +8,12 @@ public class AuthToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     @Column
     private String key;
-
     @OneToOne
     private User user;
-
     @Column
     private LocalDateTime createdOn;
-
     public User getUser() {
         return this.user;
     }

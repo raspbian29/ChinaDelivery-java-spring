@@ -1,15 +1,11 @@
 package com.chinabox.delivery.config;
 
 import com.chinabox.delivery.dao.AuthTokenRepository;
-import com.chinabox.delivery.model.AuthToken;
-import com.chinabox.delivery.model.User;
 import com.chinabox.delivery.request.filter.JwtTokenFilter;
 import com.chinabox.delivery.service.MyUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,20 +15,18 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Collections;
 
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private @Autowired
-    HttpServletRequest request;
+
+
     @Autowired
     AuthTokenRepository authTokenRepository;
 
@@ -91,11 +85,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new JwtTokenFilter();
     }
 
-    @Bean
-    @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public User requestUser() {
-        AuthToken authToken = this.authTokenRepository.getByKey(request.getHeader("Authorization"));
-        return authToken.getUser();
-
-    }
 }
