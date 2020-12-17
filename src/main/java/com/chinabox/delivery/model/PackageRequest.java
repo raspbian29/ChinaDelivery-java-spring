@@ -1,5 +1,9 @@
 package com.chinabox.delivery.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.Cascade;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -10,14 +14,21 @@ public class PackageRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
+    private String trackCode;
+    @Column
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdDate;
     @Column
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime chinaWarehouseArrivedDate;
     @Column
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime chinaWarehouseSentDate;
     @Column
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime localWarehouseArrivedDate;
     @Column
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime PackageRequestClose;
     @Column
     private ItemType itemType;
@@ -30,7 +41,7 @@ public class PackageRequest {
     @Column
     private String shopName;
     @Column
-    private String itemURL;
+    private String itemNotes;
     @Column
     private Boolean itemPhoto;
     @Column
@@ -51,6 +62,14 @@ public class PackageRequest {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getTrackCode() {
+        return trackCode;
+    }
+
+    public void setTrackCode(String trackCode) {
+        this.trackCode = trackCode;
     }
 
     public Long getId() {
@@ -137,12 +156,12 @@ public class PackageRequest {
         this.shopName = shopName;
     }
 
-    public String getItemURL() {
-        return itemURL;
+    public String getItemNotes() {
+        return itemNotes;
     }
 
-    public void setItemURL(String itemURL) {
-        this.itemURL = itemURL;
+    public void setItemNotes(String itemNotes) {
+        this.itemNotes = itemNotes;
     }
 
     public Boolean getItemPhoto() {

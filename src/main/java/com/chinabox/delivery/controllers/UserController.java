@@ -1,58 +1,39 @@
 package com.chinabox.delivery.controllers;
 
 import com.chinabox.delivery.dao.AddressRepository;
-import com.chinabox.delivery.dao.AuthTokenRepository;
 import com.chinabox.delivery.dao.UserRepository;
-import com.chinabox.delivery.model.AuthToken;
 import com.chinabox.delivery.model.User;
 import com.chinabox.delivery.model.UserAddress;
+import com.chinabox.delivery.service.RestControllerService;
+import javassist.tools.web.BadHttpRequest;
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.WebApplicationContext;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("rest/user")
-public class ApplicationController {
 
+public class UserController {
 
-    private @Autowired
-    HttpServletRequest request;
 
     @Autowired
-    @Resource
     UserRepository userRepository;
 
     @Autowired
-    @Resource
     AddressRepository addressRepository;
 
     @Autowired
-    @Resource
-    AuthTokenRepository authTokenRepository;
+    RestControllerService restControllerService;
 
-
-    @Bean
-    @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public User requestUser() {
-        AuthToken authToken = this.authTokenRepository.getByKey(request.getHeader("Authorization"));
-        return authToken.getUser();
-
-    }
-
-    @PostMapping(value = "register")
-    public void createUser(@RequestBody User user) {
-        userRepository.save(user);
-    }
 
     @RequestMapping(value = "list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getUsers() {
@@ -64,9 +45,9 @@ public class ApplicationController {
 
     @PostMapping(value = "setAddress")
     public void setUserAddress(@RequestBody UserAddress address) {
-        address.setUser(requestUser());
-        if (addressRepository.findByUser(requestUser()) != null) {
-            for (UserAddress a : addressRepository.findByUser(requestUser())) {
+        address.setUser(restControllerService.requestUser());
+        if (addressRepository.findByUser(restControllerService.requestUser()) != null) {
+            for (UserAddress a : addressRepository.findByUser(restControllerService.requestUser())) {
                 addressRepository.delete(a);
             }
         }
@@ -78,6 +59,7 @@ public class ApplicationController {
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }
+
 
     @DeleteMapping(value = "delete")
     public void deleteUserById(Long id) {
@@ -118,6 +100,16 @@ public class ApplicationController {
     public List<User> findBylName(String lName) {
         return userRepository.findBylName(lName);
 
+    }
+
+    @GetMapping(value = "userInfo")
+    public User userInfo() {
+
+        if (userRepository.findByEmail(restControllerService.requestUser().getEmail()) != null) {
+            return userRepository.findByEmail(restControllerService.requestUser().getEmail());
+        }
+        return null;
+         
     }
 
 }

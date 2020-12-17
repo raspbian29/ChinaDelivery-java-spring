@@ -1,5 +1,7 @@
 package com.chinabox.delivery.model;
 
 public enum UserType {
-    USER, OPERATOR, ADMINISTRATOR
+    USER,
+    OPERATOR,
+    ADMINISTRATOR
 }

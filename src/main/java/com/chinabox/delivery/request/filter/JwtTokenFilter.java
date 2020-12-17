@@ -18,7 +18,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest,
                                     HttpServletResponse httpServletResponse,
                                     FilterChain filterChain) throws ServletException, IOException {
-        if (!httpServletRequest.getRequestURI().contains("rest/auth/token")) {
+        if (!httpServletRequest.getRequestURI().contains("rest/auth/token") &&
+                !httpServletRequest.getRequestURI().contains("/sign-in/register")) {
             String tokenKey = httpServletRequest.getHeader("Authorization");
             if (tokenKey == null) {
                 httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized.");
