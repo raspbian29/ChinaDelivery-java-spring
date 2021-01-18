@@ -5,10 +5,8 @@ import com.chinabox.delivery.model.PackageRequest;
 import com.chinabox.delivery.service.RestControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
+import javax.persistence.EntityExistsException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -26,15 +24,22 @@ public class PackageRequestController {
 
     @PostMapping(value = "addPackageRequest")
     public void addPackageRequest(@RequestBody PackageRequest packageRequest) {
-        packageRequest.setUser(restControllerService.requestUser());
-        packageRequest.setCreatedDate(LocalDateTime.now());
-        packageRequestRepository.save(packageRequest);
+        if (packageRequestRepository.findByTrackCode(packageRequest.getTrackCode()) != null) {
+            throw new EntityExistsException("Track code already exists");
+        } else {
+            packageRequest.setUser(restControllerService.requestUser());
+            packageRequest.setCreatedDate(LocalDateTime.now());
+            packageRequestRepository.save(packageRequest);
+        }
+
     }
 
     @GetMapping(value = "getAllRequests")
     public List<PackageRequest> getPackageRequestByUserId() {
         List<PackageRequest> packageRequests = packageRequestRepository.findByUser(restControllerService.requestUser());
-        packageRequests.removeIf(pr -> pr.getPackageRequestClose() != null);
+        packageRequests.removeIf(pr -> pr.getPackageRequestClose() != null
+                | pr.getChinaWarehouseArrivedDate() != null
+                | pr.getChinaWarehouseSentDate() != null);
         packageRequests.sort(Comparator.comparingLong(PackageRequest::getId).reversed());
 
         return packageRequests;
@@ -44,11 +49,25 @@ public class PackageRequestController {
     public List<PackageRequest> getClosedPackageRequests() {
         List<PackageRequest> packageRequests = packageRequestRepository.findByUser(restControllerService.requestUser());
         packageRequests.removeIf(pr -> pr.getPackageRequestClose() == null);
-        packageRequests.sort((a, b) -> {
-            if (a.getPackageRequestClose() == null || b.getPackageRequestClose() == null)
-            return 0;
-            return a.getPackageRequestClose().compareTo(b.getPackageRequestClose());
-        });
+        packageRequests.sort(Comparator.comparing(PackageRequest::getPackageRequestClose).reversed());
         return packageRequests;
     }
+
+    @GetMapping(value = "myWarehouse")
+    public List<PackageRequest> getWarehousePackages() {
+        List<PackageRequest> packageRequests = packageRequestRepository.findByUser(restControllerService.requestUser());
+        packageRequests.removeIf(pr -> pr.getPackageRequestClose() != null
+                | pr.getChinaWarehouseArrivedDate() == null);
+        packageRequests.sort(Comparator.comparing(PackageRequest::getChinaWarehouseArrivedDate));
+        return packageRequests;
+    }
+
+    @DeleteMapping(value = "deletePackageRequest")
+    public void deletePackageRequestById(@RequestParam Long id) {
+        if (restControllerService.requestUser().getEmail()
+            .equals(packageRequestRepository.findById(id).get().getUser().getEmail())) {
+            packageRequestRepository.deleteById(id);
+        }
+    }
+
 }

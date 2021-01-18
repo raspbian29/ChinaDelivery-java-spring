@@ -1,8 +1,6 @@
 package com.chinabox.delivery.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.hibernate.annotations.Cascade;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -15,6 +13,8 @@ public class PackageRequest {
     private Long id;
     @Column
     private String trackCode;
+    @Column()
+    private String receivedInChinaBy;
     @Column
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdDate;
@@ -29,7 +29,7 @@ public class PackageRequest {
     private LocalDateTime localWarehouseArrivedDate;
     @Column
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime PackageRequestClose;
+    private LocalDateTime packageRequestClose;
     @Column
     private ItemType itemType;
     @Column
@@ -109,11 +109,11 @@ public class PackageRequest {
     }
 
     public LocalDateTime getPackageRequestClose() {
-        return PackageRequestClose;
+        return packageRequestClose;
     }
 
     public void setPackageRequestClose(LocalDateTime packageRequestClose) {
-        PackageRequestClose = packageRequestClose;
+        this.packageRequestClose = packageRequestClose;
     }
 
     public ItemType getItemType() {
@@ -204,4 +204,37 @@ public class PackageRequest {
         this.itemSplit = itemSplit;
     }
 
+    public String getReceivedInChinaBy() {
+        return receivedInChinaBy;
+    }
+
+    public void setReceivedInChinaBy(String receivedInChinaBy) {
+        this.receivedInChinaBy = receivedInChinaBy;
+    }
+
+    @Override
+    public String toString() {
+        return "PackageRequest{" +
+                "id=" + id +
+                ", trackCode='" + trackCode + '\'' +
+                ", receivedInChinaBy='" + receivedInChinaBy + '\'' +
+                ", createdDate=" + createdDate +
+                ", chinaWarehouseArrivedDate=" + chinaWarehouseArrivedDate +
+                ", chinaWarehouseSentDate=" + chinaWarehouseSentDate +
+                ", localWarehouseArrivedDate=" + localWarehouseArrivedDate +
+                ", packageRequestClose=" + packageRequestClose +
+                ", itemType=" + itemType +
+                ", price=" + price +
+                ", currency=" + currency +
+                ", amount=" + amount +
+                ", shopName='" + shopName + '\'' +
+                ", itemNotes='" + itemNotes + '\'' +
+                ", itemPhoto=" + itemPhoto +
+                ", itemInsurance=" + itemInsurance +
+                ", itemCheck=" + itemCheck +
+                ", itemRepack=" + itemRepack +
+                ", itemSplit=" + itemSplit +
+                ", user=" + user +
+                '}';
+    }
 }

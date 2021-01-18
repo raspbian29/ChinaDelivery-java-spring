@@ -4,18 +4,22 @@ import com.chinabox.delivery.dao.AddressRepository;
 import com.chinabox.delivery.dao.UserRepository;
 import com.chinabox.delivery.model.User;
 import com.chinabox.delivery.model.UserAddress;
+import com.chinabox.delivery.service.ResetPasswordService;
 import com.chinabox.delivery.service.RestControllerService;
-import javassist.tools.web.BadHttpRequest;
-import org.apache.catalina.connector.Response;
+import com.chinabox.delivery.utils.GenericResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
-
-import org.springframework.web.bind.annotation.GetMapping;
+import java.util.UUID;
 
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -34,6 +38,12 @@ public class UserController {
     @Autowired
     RestControllerService restControllerService;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+
+
+
 
     @RequestMapping(value = "list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getUsers() {
@@ -41,6 +51,30 @@ public class UserController {
         for (User user : users)
             user.setPassword(null);
         return users;
+    }
+
+    @PostMapping(value = "updateUser")
+    @Modifying
+    public void updateUser(@RequestBody User user) {
+        User userLoggedIn = restControllerService.requestUser();
+        if (user.getPassword() != null && user.getPassword().length() >= 6) {
+            userLoggedIn.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        if (user.getfName() != null && user.getfName().length() >= 3) {
+            userLoggedIn.setfName(user.getfName());
+        }
+        if (user.getlName() != null && user.getlName().length() >= 3) {
+            userLoggedIn.setlName(user.getlName());
+        }
+        if (user.getEmail() != null && user.getEmail().length() >= 8) {
+            userLoggedIn.setEmail(user.getEmail());
+        }
+        if (user.getPhoneNumber() != null && user.getPhoneNumber().length() >= 8) {
+            userLoggedIn.setPhoneNumber(user.getPhoneNumber());
+        }
+        userRepository.saveAndFlush(userLoggedIn);
+
+
     }
 
     @PostMapping(value = "setAddress")
@@ -104,12 +138,10 @@ public class UserController {
 
     @GetMapping(value = "userInfo")
     public User userInfo() {
-
         if (userRepository.findByEmail(restControllerService.requestUser().getEmail()) != null) {
             return userRepository.findByEmail(restControllerService.requestUser().getEmail());
         }
         return null;
-         
     }
 
 }

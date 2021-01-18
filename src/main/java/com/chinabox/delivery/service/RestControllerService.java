@@ -30,8 +30,7 @@ public class RestControllerService {
     @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
     public User requestUser() {
         AuthToken authToken = this.authTokenRepository.getByKey(request.getHeader("Authorization"));
-        return authToken.getUser();
-
+        return authToken == null ? null : authToken.getUser();
     }
 
 

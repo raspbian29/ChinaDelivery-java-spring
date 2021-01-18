@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface PackageRequestRepository extends JpaRepository<PackageRequest, Long> {
      List<PackageRequest> findByUser(User user);
-
+     PackageRequest findByTrackCode(String trackCode);
 }

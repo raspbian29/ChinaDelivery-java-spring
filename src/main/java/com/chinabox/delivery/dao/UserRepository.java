@@ -24,4 +24,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByiDNP(Long iDNP);
 
     List<User> findByrole(UserType role);
+
+    User findByRemoteAddress(String remoteAddress);
 }

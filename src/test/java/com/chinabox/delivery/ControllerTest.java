@@ -2,8 +2,7 @@ package com.chinabox.delivery;
 
 import com.chinabox.delivery.service.RestControllerService;
 import com.chinabox.delivery.controllers.PackageRequestController;
-import com.chinabox.delivery.model.*;
-import com.chinabox.delivery.service.MyUserDetailService;
+import com.chinabox.delivery.service.UserDetailService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.time.LocalDateTime;
 
 
 @RunWith(SpringRunner.class)
@@ -27,7 +24,7 @@ public class ControllerTest {
     @Autowired
     PackageRequestController packageController;
 
-    MyUserDetailService service;
+    UserDetailService service;
 
 
     @Bean

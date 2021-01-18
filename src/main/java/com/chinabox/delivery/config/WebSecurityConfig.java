@@ -2,7 +2,7 @@ package com.chinabox.delivery.config;
 
 import com.chinabox.delivery.dao.AuthTokenRepository;
 import com.chinabox.delivery.request.filter.JwtTokenFilter;
-import com.chinabox.delivery.service.MyUserDetailService;
+import com.chinabox.delivery.service.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,11 +31,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     AuthTokenRepository authTokenRepository;
 
     @Autowired
-    protected MyUserDetailService myUserDetailService;
+    protected UserDetailService userDetailService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder amb) throws Exception {
-        amb.userDetailsService(myUserDetailService).passwordEncoder(this.getPasswordEncoder());
+        amb.userDetailsService(userDetailService).passwordEncoder(this.getPasswordEncoder());
     }
 
     @Override
@@ -84,5 +84,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected JwtTokenFilter jwtTokenFilter() {
         return new JwtTokenFilter();
     }
+
+
 
 }
