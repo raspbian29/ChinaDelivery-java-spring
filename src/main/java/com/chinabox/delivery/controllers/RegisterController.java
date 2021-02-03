@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/sign-in")
 public class RegisterController {
