@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.validation.Valid;
 import java.util.HashMap;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @Controller
 @RequestMapping("/rest/auth")
 public class AuthController {
