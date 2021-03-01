@@ -47,8 +47,7 @@ public class OperatorController {
             if (foundPackageRequest.getChinaWarehouseArrivedDate() == null) {
                 foundPackageRequest.setChinaWarehouseArrivedDate(LocalDateTime.now());
             }
-            foundPackageRequest.setReceivedInChinaBy(restControllerService.requestUser().getfName() + " " +
-                    restControllerService.requestUser().getlName());
+            foundPackageRequest.setOperator(restControllerService.requestUser());
             packageRequestRepository.saveAndFlush(foundPackageRequest);
 
         } else {

@@ -1,6 +1,5 @@
 package com.chinabox.delivery.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -23,10 +22,6 @@ public class User {
     @Column
     private String email;
     @Column
-    private Long iDNP;
-    @Column
-    private String localAddress;
-    @Column
     private String remoteAddress;
     @Column
     private LocalDate createdDate;
@@ -38,15 +33,13 @@ public class User {
 
     }
     public User(Long id, String password, String fName, String lName, String phoneNumber, String email,
-                Long iDNP, String localAddress, String remoteAddress, LocalDate createdDate, UserType role) {
+                 String remoteAddress, LocalDate createdDate, UserType role) {
         this.id = id;
         this.password = password;
         this.fName = fName;
         this.lName = lName;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.iDNP = iDNP;
-        this.localAddress = localAddress;
         this.remoteAddress = remoteAddress;
         this.createdDate = createdDate;
         this.role = role;
@@ -78,14 +71,6 @@ public class User {
 
     public void setEmail(String email) { this.email = email; }
 
-    public Long getIDNP() { return iDNP; }
-
-    public void setIDNP(Long iDNP) { this.iDNP = iDNP; }
-
-    public String getLocalAddress() { return localAddress; }
-
-    public void setLocalAddress(String localAdress) { this.localAddress = localAdress; }
-
     public String getRemoteAddress() { return remoteAddress; }
 
     public void setRemoteAddress(String remoteAdress) { this.remoteAddress = remoteAdress; }
@@ -107,8 +92,6 @@ public class User {
                 ", fName='" + fName + '\'' +
                 ", lName='" + lName + '\'' +
                 ", email='" + email + '\'' +
-                ", IDNP=" + iDNP +
-                ", localAddress='" + localAddress + '\'' +
                 ", remoteAddress=" + remoteAddress +
                 ", createdDate=" + createdDate +
                 ", role=" + role +
@@ -125,8 +108,6 @@ public class User {
                 Objects.equals(fName, user.fName) &&
                 Objects.equals(lName, user.lName) &&
                 Objects.equals(email, user.email) &&
-                Objects.equals(iDNP, user.iDNP) &&
-                Objects.equals(localAddress, user.localAddress) &&
                 Objects.equals(remoteAddress, user.remoteAddress) &&
                 Objects.equals(createdDate, user.createdDate) &&
                 role == user.role;
@@ -134,7 +115,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, password, fName, lName, email, iDNP, localAddress, remoteAddress, createdDate, role);
+        return Objects.hash(id, password, fName, lName, email, remoteAddress, createdDate, role);
     }
 }
 

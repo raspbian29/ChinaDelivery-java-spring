@@ -21,8 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findBycreatedDate(LocalDate createdDate);
 
-    List<User> findByiDNP(Long iDNP);
-
     List<User> findByrole(UserType role);
 
     User findByRemoteAddress(String remoteAddress);

@@ -65,9 +65,15 @@ public class PackageRequestController {
     @DeleteMapping(value = "deletePackageRequest")
     public void deletePackageRequestById(@RequestParam Long id) {
         if (restControllerService.requestUser().getEmail()
-            .equals(packageRequestRepository.findById(id).get().getUser().getEmail())) {
+                .equals(packageRequestRepository.findById(id).get().getUser().getEmail())
+        && packageRequestRepository.findById(id).get().getChinaWarehouseArrivedDate() == null)  {
             packageRequestRepository.deleteById(id);
         }
     }
 
+    @GetMapping(value = "getMyRequests")
+    public List<PackageRequest> getMyPackageRequests() {
+
+        return packageRequestRepository.findByUser(restControllerService.requestUser());
+    }
 }

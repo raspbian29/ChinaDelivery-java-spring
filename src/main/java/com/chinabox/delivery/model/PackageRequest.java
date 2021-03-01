@@ -13,8 +13,6 @@ public class PackageRequest {
     private Long id;
     @Column
     private String trackCode;
-    @Column()
-    private String receivedInChinaBy;
     @Column
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdDate;
@@ -264,20 +262,12 @@ public class PackageRequest {
         this.itemSplit = itemSplit;
     }
 
-    public String getReceivedInChinaBy() {
-        return receivedInChinaBy;
-    }
-
-    public void setReceivedInChinaBy(String receivedInChinaBy) {
-        this.receivedInChinaBy = receivedInChinaBy;
-    }
 
     @Override
     public String toString() {
         return "PackageRequest{" +
                 "id=" + id +
                 ", trackCode='" + trackCode + '\'' +
-                ", receivedInChinaBy='" + receivedInChinaBy + '\'' +
                 ", createdDate=" + createdDate +
                 ", chinaWarehouseArrivedDate=" + chinaWarehouseArrivedDate +
                 ", chinaWarehouseSentDate=" + chinaWarehouseSentDate +

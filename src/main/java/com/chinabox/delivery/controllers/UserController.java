@@ -104,11 +104,7 @@ public class UserController {
 
     }
 
-    @GetMapping(value = "findByiDNP")
-    public List<User> findByiDNP(Long idnp) {
-        return userRepository.findByiDNP(idnp);
 
-    }
 
     @GetMapping(value = "findByPhoneNumber")
     public List<User> findByPhoneNumber(String phoneNumber) {
