@@ -1,10 +1,7 @@
 package com.chinabox.delivery.model;
 
-
 import javax.persistence.*;
-import java.awt.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 @Entity(name = "package_photo")
 public class PackagePhoto {
@@ -21,16 +18,28 @@ public class PackagePhoto {
     @OneToOne
     private User operator;
     @Column
-    private String imagePath; // modify
-    @Column
     private byte[] picByte;
+    @Column
+    private String type;
 
-    public String getImagePath() {
-        return imagePath;
+
+    public PackagePhoto(){};
+
+    public PackagePhoto(String name, String type, byte[] picByte) {
+
+        this.name = name;
+
+        this.type = type;
+
+        this.picByte = picByte;
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public byte[] getPicByte() {
@@ -44,7 +53,6 @@ public class PackagePhoto {
     public Long getId() {
         return id;
     }
-
 
     public String getName() {
         return name;

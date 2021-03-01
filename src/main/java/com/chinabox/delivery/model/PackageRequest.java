@@ -54,7 +54,77 @@ public class PackageRequest {
     private Boolean itemSplit;
     @ManyToOne
     private User user;
+    @ManyToOne
+    private User operator;
+    @Column
+    private Double weight;
+    @Column
+    private Double height;
+    @Column
+    private Double width;
+    @Column
+    private Double length;
+    @Column
+    BigDecimal deliveryPrice;
 
+    public Boolean getPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(Boolean paid) {
+        isPaid = paid;
+    }
+
+    @Column
+    private Boolean isPaid;
+
+    public User getOperator() {
+        return operator;
+    }
+
+    public void setOperator(User operator) {
+        this.operator = operator;
+    }
+
+    public Double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
+
+    public Double getHeight() {
+        return height;
+    }
+
+    public void setHeight(Double height) {
+        this.height = height;
+    }
+
+    public Double getWidth() {
+        return width;
+    }
+
+    public void setWidth(Double width) {
+        this.width = width;
+    }
+
+    public Double getLength() {
+        return length;
+    }
+
+    public void setLength(Double length) {
+        this.length = length;
+    }
+
+    public BigDecimal getDeliveryPrice() {
+        return deliveryPrice;
+    }
+
+    public void setDeliveryPrice(BigDecimal deliveryPrice) {
+        this.deliveryPrice = deliveryPrice;
+    }
 
     public User getUser() {
         return user;
