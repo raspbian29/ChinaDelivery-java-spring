@@ -55,15 +55,15 @@ public class PackageRequest {
     @ManyToOne
     private User operator;
     @Column
-    private Double weight;
+    private BigDecimal weight;
     @Column
-    private Double height;
+    private BigDecimal height;
     @Column
-    private Double width;
+    private BigDecimal width;
     @Column
-    private Double length;
+    private BigDecimal length;
     @Column
-    BigDecimal deliveryPrice;
+    private BigDecimal deliveryPrice;
 
     public Boolean getPaid() {
         return isPaid;
@@ -84,35 +84,35 @@ public class PackageRequest {
         this.operator = operator;
     }
 
-    public Double getWeight() {
+    public BigDecimal getWeight() {
         return weight;
     }
 
-    public void setWeight(Double weight) {
+    public void setWeight(BigDecimal weight) {
         this.weight = weight;
     }
 
-    public Double getHeight() {
+    public BigDecimal getHeight() {
         return height;
     }
 
-    public void setHeight(Double height) {
+    public void setHeight(BigDecimal height) {
         this.height = height;
     }
 
-    public Double getWidth() {
+    public BigDecimal getWidth() {
         return width;
     }
 
-    public void setWidth(Double width) {
+    public void setWidth(BigDecimal width) {
         this.width = width;
     }
 
-    public Double getLength() {
+    public BigDecimal getLength() {
         return length;
     }
 
-    public void setLength(Double length) {
+    public void setLength(BigDecimal length) {
         this.length = length;
     }
 
