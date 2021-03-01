@@ -39,8 +39,6 @@ public class PackageRequest {
     @Column
     private Double amount;
     @Column
-    private String shopName;
-    @Column
     private String itemNotes;
     @Column
     private Boolean itemPhoto;
@@ -218,14 +216,6 @@ public class PackageRequest {
         this.amount = amount;
     }
 
-    public String getShopName() {
-        return shopName;
-    }
-
-    public void setShopName(String shopName) {
-        this.shopName = shopName;
-    }
-
     public String getItemNotes() {
         return itemNotes;
     }
@@ -297,7 +287,6 @@ public class PackageRequest {
                 ", price=" + price +
                 ", currency=" + currency +
                 ", amount=" + amount +
-                ", shopName='" + shopName + '\'' +
                 ", itemNotes='" + itemNotes + '\'' +
                 ", itemPhoto=" + itemPhoto +
                 ", itemInsurance=" + itemInsurance +
