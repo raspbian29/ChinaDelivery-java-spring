@@ -6,7 +6,9 @@ import com.chinabox.delivery.model.PackageRequest;
 import com.chinabox.delivery.model.User;
 import com.chinabox.delivery.model.UserType;
 import com.chinabox.delivery.request.body.NotificationBody;
+import com.chinabox.delivery.request.body.PackageRequestValidationBody;
 import com.chinabox.delivery.service.EmailService;
+import com.chinabox.delivery.service.OperatorService;
 import com.chinabox.delivery.service.RestControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,9 @@ public class OperatorController {
     UserRepository userRepository;
     @Autowired
     EmailService emailService;
+    @Autowired
+    OperatorService operatorService;
+
 
     @PostMapping(value = "findByTrackCode")
     public PackageRequest findPackageByTrackCode(@RequestBody String trackCode) {
@@ -94,6 +99,15 @@ public class OperatorController {
 
 
     }
+
+    @PostMapping(value = "validatePackage")
+    public void validatePackage(@RequestBody PackageRequestValidationBody validationBody){
+
+        if (restControllerService.requestUser().getRole() == UserType.OPERATOR ){
+            operatorService.validatePackage(validationBody);
+        }
+
+        }
 
 
 
