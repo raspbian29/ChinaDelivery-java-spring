@@ -37,7 +37,7 @@ public class OperatorController {
     OperatorService operatorService;
 
 
-    @PostMapping(value = "findByTrackCode")
+    @GetMapping(value = "findByTrackCode")
     public PackageRequest findPackageByTrackCode(@RequestBody String trackCode) {
 
         PackageRequest foundPackageRequest;
