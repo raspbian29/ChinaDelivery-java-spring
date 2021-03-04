@@ -12,7 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +32,7 @@ public class FileUploadController {
     PackagePhotoService packagePhotoService;
 
 
-    @PostMapping(value = "uploadPackagePhoto", consumes = { "multipart/form-data" })
+    @PostMapping(value = "uploadPackagePhoto", consumes = {"multipart/form-data"})
     public ResponseEntity<Void> uploadPhoto(@RequestParam("imageFile") MultipartFile[] photos,
                                             @RequestParam("packageRequestId") Long id) throws IOException {
         Optional<PackageRequest> packageRequest = this.packageRequestRepository.findById(id);
@@ -48,7 +50,14 @@ public class FileUploadController {
 
     @GetMapping(value = "getPackagePhotos")
     public List<PackagePhoto> getImage(@RequestParam("packageRequestId") Long id) {
-        return packagePhotoService.getImage(id);
+
+        List<PackagePhoto> packagePhotos = new ArrayList<>();
+        UserType userRole = restControllerService.requestUser().getRole();
+        boolean isUserAllowed = userRole == UserType.ADMINISTRATOR || userRole == UserType.OPERATOR;
+        if (isUserAllowed) {
+            return packagePhotoService.getImages(id);
+        }
+        return packagePhotos;
     }
 
 }
