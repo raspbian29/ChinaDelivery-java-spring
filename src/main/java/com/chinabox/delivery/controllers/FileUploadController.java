@@ -9,10 +9,8 @@ import com.chinabox.delivery.service.RestControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +41,22 @@ public class FileUploadController {
         }
         for (MultipartFile photo : photos) {
             packagePhotoService.uploadImage(photo, packageRequest.get());
+        }
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+   @PostMapping(value = "uploadBase64", consumes = {"multipart/form-data"})
+    public ResponseEntity<Void> uploadPhoto2(@RequestParam("imageFile") String[] base64images,
+                                            @RequestParam("packageRequestId") Long id) {
+        Optional<PackageRequest> packageRequest = this.packageRequestRepository.findById(id);
+        UserType userRole = restControllerService.requestUser().getRole();
+        boolean isUserAllowed = userRole == UserType.ADMINISTRATOR || userRole == UserType.OPERATOR;
+        if (!(packageRequest.isPresent() && isUserAllowed)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        for (String base64img: base64images) {
+
+            packagePhotoService.uploadBase64(base64img, packageRequest.get());
         }
         return ResponseEntity.status(HttpStatus.OK).build();
     }

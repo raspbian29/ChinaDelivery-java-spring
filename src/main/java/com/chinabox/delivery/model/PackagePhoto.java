@@ -19,27 +19,14 @@ public class PackagePhoto {
     private User operator;
     @Column
     private byte[] picByte;
-    @Column
-    private String type;
+
 
 
     public PackagePhoto(){};
 
-    public PackagePhoto(String name, String type, byte[] picByte) {
-
+    public PackagePhoto(String name,  byte[] picByte) {
         this.name = name;
-
-        this.type = type;
-
         this.picByte = picByte;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public byte[] getPicByte() {

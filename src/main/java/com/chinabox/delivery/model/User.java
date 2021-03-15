@@ -27,7 +27,16 @@ public class User {
     private LocalDate createdDate;
     @Column
     private UserType role;
+    @OneToOne
+    private UserAddress userAddress;
 
+    public UserAddress getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(UserAddress userAddress) {
+        this.userAddress = userAddress;
+    }
 
     public User() {
 

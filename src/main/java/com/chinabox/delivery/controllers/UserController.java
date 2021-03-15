@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -32,9 +33,6 @@ public class UserController {
 
     @Autowired
     PasswordEncoder passwordEncoder;
-
-
-
 
 
     @RequestMapping(value = "list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -71,13 +69,16 @@ public class UserController {
 
     @PostMapping(value = "setAddress")
     public void setUserAddress(@RequestBody UserAddress address) {
-        address.setUser(restControllerService.requestUser());
-        if (addressRepository.findByUser(restControllerService.requestUser()) != null) {
-            for (UserAddress a : addressRepository.findByUser(restControllerService.requestUser())) {
-                addressRepository.delete(a);
+        if (address != null && restControllerService.requestUser() != null) {
+            UserAddress existingAddress = restControllerService.requestUser().getUserAddress();
+            restControllerService.requestUser().setUserAddress(address);
+            addressRepository.save(address);
+            if (existingAddress != null) {
+                addressRepository.deleteById(existingAddress.getId());
             }
         }
-        addressRepository.save(address);
+
+
     }
 
 
@@ -105,7 +106,6 @@ public class UserController {
     }
 
 
-
     @GetMapping(value = "findByPhoneNumber")
     public List<User> findByPhoneNumber(String phoneNumber) {
         return userRepository.findByPhoneNumber(phoneNumber);
@@ -127,7 +127,9 @@ public class UserController {
     @GetMapping(value = "userInfo")
     public User userInfo() {
         if (userRepository.findByEmail(restControllerService.requestUser().getEmail()) != null) {
-            return userRepository.findByEmail(restControllerService.requestUser().getEmail());
+            User foundUser = userRepository.findByEmail(restControllerService.requestUser().getEmail());
+            foundUser.setPassword(null);
+            return foundUser;
         }
         return null;
     }

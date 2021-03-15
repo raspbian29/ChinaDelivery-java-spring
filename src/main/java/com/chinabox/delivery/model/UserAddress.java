@@ -6,31 +6,22 @@ import javax.persistence.*;
 public class UserAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    private Long id;
     @Column
-    public String district;
+    private String district;
     @Column
-    public String city;
+    private String city;
     @Column
-    public String street;
+    private String street;
     @Column
-    public String streetNumber;
+    private String streetNumber;
     @Column
-    public String apartmentNumber;
+    private String apartmentNumber;
     @Column
-    public String zipCode;
+    private String zipCode;
     @Column
-    public String secondAddress;
-    @OneToOne
-    private User user;
+    private String secondAddress;
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public User getUser() {
-        return this.user;
-    }
 
     public Long getId() {
         return id;
