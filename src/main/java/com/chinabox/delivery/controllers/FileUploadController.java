@@ -5,9 +5,12 @@ import com.chinabox.delivery.model.PackagePhoto;
 import com.chinabox.delivery.model.PackageRequest;
 import com.chinabox.delivery.model.User;
 import com.chinabox.delivery.model.UserType;
+import com.chinabox.delivery.request.body.ImageUpload;
 import com.chinabox.delivery.service.PackagePhotoService;
 import com.chinabox.delivery.service.RestControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,9 +49,10 @@ public class FileUploadController {
     }
 
     @PostMapping(value = "uploadBase64")
-    public ResponseEntity<Void> uploadPhoto2(@RequestParam("images") String[] base64images,
-                                             @RequestParam("packageRequestId") Long id) {
-        Optional<PackageRequest> packageRequest = this.packageRequestRepository.findById(id);
+    public ResponseEntity<Void> uploadPhoto2(@RequestBody() ImageUpload body) throws JSONException {
+        List<String> base64images = body.getImages();
+        Long packageRequestId = body.getPackageRequestId();
+        Optional<PackageRequest> packageRequest = this.packageRequestRepository.findById(packageRequestId);
         UserType userRole = restControllerService.requestUser().getRole();
         boolean isUserAllowed = userRole == UserType.ADMINISTRATOR || userRole == UserType.OPERATOR;
         if (!(packageRequest.isPresent() && isUserAllowed)) {
