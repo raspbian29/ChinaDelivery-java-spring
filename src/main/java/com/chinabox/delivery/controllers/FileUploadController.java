@@ -45,7 +45,7 @@ public class FileUploadController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PostMapping(value = "uploadBase64", consumes = {"multipart/form-data"})
+    @PostMapping(value = "uploadBase64")
     public ResponseEntity<Void> uploadPhoto2(@RequestParam("images") String[] base64images,
                                              @RequestParam("packageRequestId") Long id) {
         Optional<PackageRequest> packageRequest = this.packageRequestRepository.findById(id);
