@@ -11,7 +11,10 @@ import com.chinabox.delivery.service.EmailService;
 import com.chinabox.delivery.service.OperatorService;
 import com.chinabox.delivery.service.RestControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import javax.ws.rs.BadRequestException;
@@ -101,15 +104,17 @@ public class OperatorController {
     }
 
     @PostMapping(value = "validatePackage")
-    public void validatePackage(@RequestBody PackageRequestValidationBody validationBody){
-
-        if (restControllerService.requestUser().getRole() == UserType.OPERATOR ){
-            operatorService.validatePackage(validationBody);
+    public ResponseEntity<?> validatePackage(@RequestBody PackageRequestValidationBody validationBody) {
+        UserType userRole = restControllerService.requestUser().getRole();
+        boolean isUserAllowed = userRole == UserType.ADMINISTRATOR || userRole == UserType.OPERATOR;
+        if (!isUserAllowed) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
+        operatorService.validatePackage(validationBody);
+        return ResponseEntity.status(HttpStatus.OK).build();
 
-        }
 
-
+    }
 
 
 }
