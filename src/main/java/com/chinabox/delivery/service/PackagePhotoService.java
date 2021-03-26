@@ -33,7 +33,7 @@ public class PackagePhotoService {
     public void uploadBase64(String base64Img, PackageRequest packageRequest) {
 
         byte[] image = base64Img.getBytes();
-        PackagePhoto img = new PackagePhoto(packageRequest.getTrackCode(),image);
+        PackagePhoto img = new PackagePhoto(packageRequest.getTrackCode().concat(LocalDateTime.now().toString()),image);
         img.setPackageRequest(packageRequest);
         img.setOperator(this.restControllerService.requestUser());
         img.setAddedOn(LocalDateTime.now());
