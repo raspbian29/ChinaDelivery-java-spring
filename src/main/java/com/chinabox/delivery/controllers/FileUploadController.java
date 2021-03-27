@@ -67,6 +67,7 @@ public class FileUploadController {
     public ResponseEntity<List<PackagePhoto>> getImage(@RequestParam("packageRequestId") Long id) {
         Optional<PackageRequest> pro = packageRequestRepository.findById(id);
         if (pro.isEmpty()) {
+            System.out.println("Package not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         PackageRequest pr = pro.get();
@@ -75,6 +76,7 @@ public class FileUploadController {
         UserType userRole = requestUser.getRole();
         boolean isUserAllowed = userRole == UserType.ADMINISTRATOR || userRole == UserType.OPERATOR;
         if (!prUser.getId().equals(requestUser.getId()) || !isUserAllowed) {
+            System.out.println("User has no rights or not allowed");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(packagePhotoService.getImages(id));
