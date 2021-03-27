@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -48,7 +47,7 @@ public class FileUploadController {
     }
 
     @PostMapping(value = "uploadBase64")
-    public ResponseEntity<Void> uploadPhoto2(@RequestBody() ImageUpload body) throws JSONException {
+    public ResponseEntity<Void> uploadPhoto2(@RequestBody() ImageUpload body) {
         List<String> base64images = body.getImages();
         Long packageRequestId = body.getPackageRequestId();
         Optional<PackageRequest> packageRequest = this.packageRequestRepository.findById(packageRequestId);
