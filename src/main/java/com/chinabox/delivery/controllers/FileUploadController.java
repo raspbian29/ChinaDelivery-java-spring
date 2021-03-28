@@ -76,7 +76,7 @@ public class FileUploadController {
         User prUser = pr.getUser();
         UserType userRole = requestUser.getRole();
         boolean isUserAllowed = (userRole == UserType.ADMINISTRATOR || userRole == UserType.OPERATOR);
-        if (!isUserAllowed || !prUser.getId().equals(requestUser.getId())) {
+        if (isUserAllowed == false || !prUser.getId().equals(requestUser.getId())) {
             System.out.println("-User has no rights or not allowed " + requestUser);
             System.out.println("is user allowed " + isUserAllowed);
             System.out.println("is user's pachage? " + prUser.getId().equals(requestUser.getId()));
