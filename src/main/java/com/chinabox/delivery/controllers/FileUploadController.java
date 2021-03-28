@@ -75,10 +75,11 @@ public class FileUploadController {
         User prUser = pr.getUser();
         UserType userRole = requestUser.getRole();
         boolean isUserAllowed = userRole == UserType.ADMINISTRATOR || userRole == UserType.OPERATOR;
-        if (!prUser.getId().equals(requestUser.getId()) || isUserAllowed) {
+        if (!prUser.getId().equals(requestUser.getId()) || !isUserAllowed) {
             System.out.println("User has no rights or not allowed" + requestUser);
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
+        System.out.println(requestUser);
         return ResponseEntity.status(HttpStatus.OK).body(packagePhotoService.getImages(id));
     }
 
