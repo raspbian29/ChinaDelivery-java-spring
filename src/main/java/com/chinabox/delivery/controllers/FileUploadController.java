@@ -76,7 +76,9 @@ public class FileUploadController {
         UserType userRole = requestUser.getRole();
         boolean isUserAllowed = (userRole == UserType.ADMINISTRATOR || userRole == UserType.OPERATOR);
         if (!prUser.getId().equals(requestUser.getId()) || !isUserAllowed) {
-            System.out.println("User has no rights or not allowed" + requestUser);
+            System.out.println("-User has no rights or not allowed " + requestUser);
+            System.out.println("is user allowed "+isUserAllowed);
+            System.out.println("is user's pachage? " + prUser.getId().equals(requestUser.getId()));
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         System.out.println(requestUser);
