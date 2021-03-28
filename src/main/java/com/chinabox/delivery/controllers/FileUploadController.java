@@ -80,6 +80,7 @@ public class FileUploadController {
             System.out.println("User have no rights or not allowed ? " + requestUser);
             System.out.println("Is user allowed " + isUserAllowed);
             System.out.println("Is user's package? " + prUser.getId().equals(requestUser.getId()));
+            System.out.println("request.user == pr.user? " + prUser.getId().equals(requestUser.getId()));
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         System.out.println(requestUser);
