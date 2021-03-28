@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -75,9 +76,9 @@ public class FileUploadController {
         User prUser = pr.getUser();
         UserType userRole = requestUser.getRole();
         boolean isUserAllowed = (userRole == UserType.ADMINISTRATOR || userRole == UserType.OPERATOR);
-        if (!prUser.getId().equals(requestUser.getId()) || !isUserAllowed) {
+        if (!isUserAllowed || !prUser.getId().equals(requestUser.getId())) {
             System.out.println("-User has no rights or not allowed " + requestUser);
-            System.out.println("is user allowed "+isUserAllowed);
+            System.out.println("is user allowed " + isUserAllowed);
             System.out.println("is user's pachage? " + prUser.getId().equals(requestUser.getId()));
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
