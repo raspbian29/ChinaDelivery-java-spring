@@ -76,14 +76,13 @@ public class FileUploadController {
         User prUser = pr.getUser();
         UserType userRole = requestUser.getRole();
         boolean isUserAllowed = (userRole == UserType.ADMINISTRATOR || userRole == UserType.OPERATOR);
-        if (!isUserAllowed || !prUser.getId().equals(requestUser.getId())) {
-            System.out.println("User have no rights or not allowed ? " + requestUser);
-            System.out.println("Is user allowed " + isUserAllowed);
-            System.out.println("Is user's package? " + prUser.getId().equals(requestUser.getId()));
-            System.out.println("request.user == pr.user? " + prUser.getId().equals(requestUser.getId()));
+        if (!isUserAllowed) {
+            System.out.println("Only operator & Administrator allowed");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        System.out.println(requestUser);
+        if(!prUser.getId().equals(requestUser.getId())){
+            System.out.println("Only user who owns this package is allowed");
+        }
         return ResponseEntity.status(HttpStatus.OK).body(packagePhotoService.getImages(id));
     }
 
