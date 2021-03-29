@@ -80,7 +80,7 @@ public class FileUploadController {
             System.out.println("Only operator & Administrator allowed");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        if(!prUser.getId().equals(requestUser.getId())){
+        if(!prUser.getId().equals(requestUser.getId()) || !isUserAllowed){
             System.out.println("Only user who owns this package is allowed");
         }
         return ResponseEntity.status(HttpStatus.OK).body(packagePhotoService.getImages(id));
